@@ -1,14 +1,17 @@
 import api from '../api.json';
-import { nomarlize, schema } from 'normalizr';
-import { normalize } from 'path';
+import { normalize, schema } from 'normalizr';
+//import { normalize } from 'path';
 
+const media = new schema.Entity('media', {}, {
+    idAttribute: 'id',
+    processStrategy: (value, parent, key) => ({...value, category: parent.id })
+})
 
-const media = new schemas.Entity(key, {}, {})
-const media = new schemas.Entity('media', {}, {})
+const category = new schema.Entity('categories', {
+    playlist: new schema.Array(media)
+});
 
-const category = new schema.Entity();
-
-const categories = 
+const categories = { categories: new schema.Array(category)}
 
 const normalizedData = normalize(api, categories);
 
