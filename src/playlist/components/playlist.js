@@ -3,13 +3,12 @@ import MediaContainer from '../containers/media';
 
 import './playlist.css'
 
-function Playlist(props) {  
-    console.log(props.data)            
+function Playlist(props) {           
     return(
         <div className="Playlist">            
             {
                 props.playlist.map((mediaId) => {
-                    return <MediaContainer openModal={props.handleOpenModal} id={mediaId} {...mediaId} key={mediaId.id}/>
+                    return <MediaContainer openModal={props.handleOpenModal} id={mediaId} {...mediaId} key={mediaId}/>
                 })
             }
         </div>
