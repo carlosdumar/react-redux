@@ -1,34 +1,43 @@
 import React from 'react'
 import { render } from 'react-dom';
-
-//import data from '../api.json';
-
 import Home from '../pages/containers/home';
-// import data from '../schemas/index';
 import { Provider } from 'react-redux';
-
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducer from '../reducers/index';
 import { Map as map } from 'immutable';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-//console.log(normalizedData);
-//console.log(data);
-
-// const initialState = {
-//     data: {
-//         entities: data.entities,
-//         categories: data.result.categories,
-//         search: [],        
-//     },
-//     modal: {
-//         visibility: false,
-//         mediaId: null
+// function logger({ getState, dispatch}) {
+//     return (next) => {
+//         return (action) => {
+//             console.log('este es mi viejo estado', getState().toJS())
+//             console.log('vamos a enviar esta accion', action);
+//             const value = next(action)
+//             console.log('este es mi nuevo estado', getState().toJS())
+//             return value
+//         }
 //     }
 // }
+
+// const logger = ({getState, dispatch}) => next => action => {
+//     console.log('este es mi viejo estado', getState().toJS())
+//     console.log('vamos a enviar esta accion', action);
+//     const value = next(action)
+//     console.log('este es mi nuevo estado', getState().toJS())
+//     return value
+// }
+
 const store = createStore(
     reducer,
     map(),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeWithDevTools(
+        applyMiddleware(
+            logger,
+            thunk
+        )
+    )
 )
 
 const homeContainer = document.getElementById('home-container');
